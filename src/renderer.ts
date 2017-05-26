@@ -2,7 +2,7 @@ import {Application} from 'pixi.js';
 import {GameState} from './types/gameState';
 import Graphics = PIXI.Graphics;
 
-const defaultSize = {width: 800, height: 600};
+const defaultSize = {width: 1280, height: 720};
 
 let graphicsByType: Map<string, Array<Array<Graphics>>>;
 const app = new Application(defaultSize.width, defaultSize.height, {backgroundColor: 0x000000});
