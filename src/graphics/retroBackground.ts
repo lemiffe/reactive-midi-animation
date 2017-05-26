@@ -6,7 +6,7 @@ export class RetroBackground extends Base {
     height: number;
 
     private static defaults = [
-        {x: 0, y: 0, width: 800, height:600, opacity: 1, lastUpdatedAt: 0, decayFor: 400, sustain: true}
+        {x: 0, y: 0, width: 1280, height:720, opacity: 1, lastUpdatedAt: 0, decayFor: 400, sustain: true}
     ];
 
     constructor(objectIndex) {

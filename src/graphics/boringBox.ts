@@ -6,7 +6,7 @@ export class BoringBox extends Base {
     y2: number;
 
     private static defaults = [
-        {x: 200, x2: 600, y: 100, y2: 500, opacity: 1, lastUpdatedAt: 0, decayFor: 1000, sustain: true}
+        {x: 240, x2: 1040, y: 80, y2: 640, opacity: 1, lastUpdatedAt: 0, decayFor: 1000, sustain: true}
     ];
 
     constructor(objectIndex) {

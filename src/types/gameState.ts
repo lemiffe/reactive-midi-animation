@@ -34,7 +34,9 @@ export const defaultGameState: GameState = {
         new Triangle(0),
         new Triangle(1),
         new Triangle(2),
-        new Triangle(3)
+        new Triangle(3),
+        new Triangle(4),
+        new Triangle(5)
     ],
     background: [
         new RetroBackground(0)

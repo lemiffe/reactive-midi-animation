@@ -7,10 +7,12 @@ export class Triangle extends Base {
     color: number;
 
     private static defaults = [
-        {x: 400, y: 310, width: 81, height: 80, color: 0x990000, opacity: 1, lastUpdatedAt: 0, decayFor: 1300, sustain: true},
-        {x: 400, y: 300, width: 100, height: 100, color: 0xAA0000, opacity: 1, lastUpdatedAt: 0, decayFor: 1200, sustain: true},
-        {x: 400, y: 290, width: 120, height: 120, color: 0xCC0000, opacity: 1, lastUpdatedAt: 0, decayFor: 1100, sustain: true},
-        {x: 400, y: 280, width: 140, height: 140, color: 0xFF0000, opacity: 1, lastUpdatedAt: 0, decayFor: 1000, sustain: true}
+        {x: 640, y: 380, width: 81, height: 80, color: 0x990000, opacity: 1, lastUpdatedAt: 0, decayFor: 1300, sustain: true},
+        {x: 640, y: 370, width: 100, height: 100, color: 0xAA0000, opacity: 1, lastUpdatedAt: 0, decayFor: 1200, sustain: true},
+        {x: 640, y: 360, width: 120, height: 120, color: 0xCC0000, opacity: 1, lastUpdatedAt: 0, decayFor: 1100, sustain: true},
+        {x: 640, y: 350, width: 140, height: 140, color: 0xFF0000, opacity: 1, lastUpdatedAt: 0, decayFor: 1000, sustain: true},
+        {x: 640, y: 340, width: 160, height: 160, color: 0xFF0000, opacity: 1, lastUpdatedAt: 0, decayFor: 1000, sustain: true},
+        {x: 640, y: 330, width: 180, height: 180, color: 0xFF0000, opacity: 1, lastUpdatedAt: 0, decayFor: 1000, sustain: true}
     ];
 
     constructor(objectIndex) {

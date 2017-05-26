@@ -6,14 +6,14 @@ export class Circle extends Base {
     color: number;
 
     private static defaults = [
-        {x: 400, y: 300, width: 160, color: 0x7ea6e0, opacity: 1, lastUpdatedAt: 0, decayFor: 1000, sustain: true},
-        {x: 400, y: 300, width: 180, color: 0x769cd4, opacity: 1, lastUpdatedAt: 0, decayFor: 1000, sustain: true},
-        {x: 400, y: 300, width: 200, color: 0x6c92c9, opacity: 1, lastUpdatedAt: 0, decayFor: 1000, sustain: true},
-        {x: 400, y: 300, width: 220, color: 0x6186bc, opacity: 1, lastUpdatedAt: 0, decayFor: 1000, sustain: true},
-        {x: 400, y: 300, width: 240, color: 0x567aaf, opacity: 1, lastUpdatedAt: 0, decayFor: 1000, sustain: true},
-        {x: 400, y: 300, width: 260, color: 0x5075aa, opacity: 1, lastUpdatedAt: 0, decayFor: 1000, sustain: true},
-        {x: 400, y: 300, width: 280, color: 0x4a6ea2, opacity: 1, lastUpdatedAt: 0, decayFor: 1000, sustain: true},
-        {x: 400, y: 300, width: 300, color: 0x3f6294, opacity: 1, lastUpdatedAt: 0, decayFor: 1000, sustain: true}
+        {x: 640, y: 360, width: 160, color: 0x7ea6e0, opacity: 1, lastUpdatedAt: 0, decayFor: 1000, sustain: true},
+        {x: 640, y: 360, width: 180, color: 0x769cd4, opacity: 1, lastUpdatedAt: 0, decayFor: 1000, sustain: true},
+        {x: 640, y: 360, width: 200, color: 0x6c92c9, opacity: 1, lastUpdatedAt: 0, decayFor: 1000, sustain: true},
+        {x: 640, y: 360, width: 220, color: 0x6186bc, opacity: 1, lastUpdatedAt: 0, decayFor: 1000, sustain: true},
+        {x: 640, y: 360, width: 240, color: 0x567aaf, opacity: 1, lastUpdatedAt: 0, decayFor: 1000, sustain: true},
+        {x: 640, y: 360, width: 260, color: 0x5075aa, opacity: 1, lastUpdatedAt: 0, decayFor: 1000, sustain: true},
+        {x: 640, y: 360, width: 280, color: 0x4a6ea2, opacity: 1, lastUpdatedAt: 0, decayFor: 1000, sustain: true},
+        {x: 640, y: 360, width: 300, color: 0x3f6294, opacity: 1, lastUpdatedAt: 0, decayFor: 1000, sustain: true}
     ];
 
     constructor(objectIndex) {

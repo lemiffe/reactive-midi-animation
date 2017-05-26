@@ -9,12 +9,13 @@ export class Laser extends Base {
     glow: number;
 
     private static defaults = [
-        {x: -25, x2: 200, y: 0, y2: 600, color: 0xff0049, opacity: 1, lastUpdatedAt: 0, decayFor: 1000, glow: 2, sustain: true},
-        {x: 140, x2: 30, y: 0, y2: 600, color: 0x00ebb3, opacity: 1, lastUpdatedAt: 0, decayFor: 1000, glow: 2, sustain: true},
-        {x: 320, x2: 420, y: 0, y2: 600, color: 0x2befed, opacity: 1, lastUpdatedAt: 0, decayFor: 1000, glow: 2, sustain: true},
-        {x: 650, x2: 360, y: 0, y2: 600, color: 0xc8ff00, opacity: 1, lastUpdatedAt: 0, decayFor: 1000, glow: 2, sustain: true},
-        {x: 700, x2: 900, y: 0, y2: 600, color: 0xf6fc2d, opacity: 1, lastUpdatedAt: 0, decayFor: 1000, glow: 2, sustain: true},
-        {x: 920, x2: 600, y: 0, y2: 600, color: 0xff891f, opacity: 1, lastUpdatedAt: 0, decayFor: 1000, glow: 2, sustain: true}
+        {x: -25, x2: 200, y: 0, y2: 720, color: 0xff0049, opacity: 1, lastUpdatedAt: 0, decayFor: 1000, glow: 2, sustain: true},
+        {x: 140, x2: 30, y: 0, y2: 720, color: 0x00ebb3, opacity: 1, lastUpdatedAt: 0, decayFor: 1000, glow: 2, sustain: true},
+        {x: 360, x2: 420, y: 0, y2: 720, color: 0x2befed, opacity: 1, lastUpdatedAt: 0, decayFor: 1000, glow: 2, sustain: true},
+        {x: 750, x2: 360, y: 0, y2: 720, color: 0xc8ff00, opacity: 1, lastUpdatedAt: 0, decayFor: 1000, glow: 2, sustain: true},
+        {x: 800, x2: 1350, y: 0, y2: 720, color: 0xf6fc2d, opacity: 1, lastUpdatedAt: 0, decayFor: 1000, glow: 2, sustain: true},
+        {x: 1020, x2: 750, y: 0, y2: 720, color: 0xff891f, opacity: 1, lastUpdatedAt: 0, decayFor: 1000, glow: 2, sustain: true},
+        {x: 1120, x2: 1300, y: 0, y2: 720, color: 0xff0049, opacity: 1, lastUpdatedAt: 0, decayFor: 1000, glow: 2, sustain: true}
     ];
 
     constructor(objectIndex) {
