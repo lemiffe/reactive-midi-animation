@@ -53,3 +53,13 @@ export const defaultGameState: GameState = {
     ]
 };
 
+/**
+ * Custom names for graphic types (used in select boxes)
+ */
+export const graphicNames = {
+    lasers: "Lasers (random)",
+    boringBoxes: "Rectangle (1)",
+    triangles: "Trangles (stacked)",
+    background: "Retro background",
+    circle: "Circles (random)"
+};

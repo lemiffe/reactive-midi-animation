@@ -2,7 +2,7 @@ import MIDIInput = WebMidi.MIDIInput;
 import {Observable} from 'rxjs/Observable';
 import * as h from 'hyperscript';
 import {GraphicInputMapping} from '../types/graphicInputMapping';
-import {defaultGameState} from '../types/gameState';
+import {defaultGameState, graphicNames} from '../types/gameState';
 import MIDIOutput = WebMidi.MIDIOutput;
 
 const GRAPHIC_TYPES = Object.keys(defaultGameState);
@@ -21,8 +21,8 @@ catch(e) {
  * For example: MIDI Input 1 = Triangles
  * For example: MIDI Input 1 = Triangles
  */
-export function getGraphicTypeSelection(midiInputs: Array<MIDIInput>, sideBarElement: Element): Observable<Array<GraphicInputMapping>> {
-
+export function getGraphicTypeSelection(midiInputs: Array<MIDIInput>, sideBarElement: Element): Observable<Array<GraphicInputMapping>>
+{
     const initialMapping: Array<GraphicInputMapping> = [];
     const selectBoxes: Array<HTMLSelectElement> = [];
     const checkBoxes: Array<HTMLInputElement> = [];
@@ -33,7 +33,7 @@ export function getGraphicTypeSelection(midiInputs: Array<MIDIInput>, sideBarEle
         initialMapping.push({inputId: midiInput.id, graphicType: initialGraphicType});
 
         const checkBox = h('input', {type: 'checkbox', name: midiInput.id});
-        const selectBox = renderSelectBox(midiInput, GRAPHIC_TYPES, initialGraphicType);
+        const selectBox = renderSelectBox(midiInput, GRAPHIC_TYPES, initialGraphicType, graphicNames);
         sideBarElement.appendChild(h('div.input', [
             h('div.title', midiInput.name),
             h('div.selector', selectBox),
@@ -65,11 +65,11 @@ export function getGraphicTypeSelection(midiInputs: Array<MIDIInput>, sideBarEle
         .startWith(initialMapping);
 }
 
-function renderSelectBox(input: MIDIInput, graphicTypes: Array<string>, initialValue): HTMLSelectElement {
+function renderSelectBox(input: MIDIInput, graphicTypes: Array<string>, initialValue, labels: any): HTMLSelectElement {
     return h('select', {name: input.id},
         [h('option', {selected: initialValue === undefined}, 'none'),
             ...graphicTypes.map(graphicType =>
-                h('option', {selected: graphicType === initialValue}, graphicType)
+                h('option', {selected: graphicType === initialValue, label: labels[graphicType]}, graphicType)
             )]
     );
 }
