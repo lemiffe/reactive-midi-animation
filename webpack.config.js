@@ -12,5 +12,8 @@ module.exports = {
             { test: /\.css$/, use: [ 'style-loader', 'css-loader' ] },
             { test: /\.mp4$/, use: [ 'file-loader' ] }
         ]
+    },
+    node: {
+        fs: "empty"
     }
 }
