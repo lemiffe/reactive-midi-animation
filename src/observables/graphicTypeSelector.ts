@@ -9,7 +9,7 @@ const GRAPHIC_TYPES = Object.keys(defaultGameState);
 
 let storedMapping: Array<GraphicInputMapping>;
 try {
-    storedMapping = JSON.parse(window.localStorage.getItem('mapping')) || [];
+    storedMapping = JSON.parse(window.localStorage.getItem('graphicMapping')) || [];
 }
 catch(e) {
     storedMapping = [];
@@ -60,7 +60,7 @@ export function getGraphicTypeSelection(midiInputs: Array<MIDIInput>, sideBarEle
     // return all select values if one of them changes
     return Observable.merge(checkBoxes$, selectBoxes$)
         .do(mapping => {
-            window.localStorage.setItem('mapping', JSON.stringify(mapping));
+            window.localStorage.setItem('graphicMapping', JSON.stringify(mapping));
         })
         .startWith(initialMapping);
 }
