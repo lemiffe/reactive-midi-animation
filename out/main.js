@@ -82288,6 +82288,7 @@ const dmxConstants_1 = __webpack_require__(171);
 const fakeMidi_1 = __webpack_require__(172);
 const ReplaySubject_1 = __webpack_require__(27);
 const MidiPlayer = __webpack_require__(167);
+let playingMidiFile = false;
 const TICKER_INTERVAL = 17;
 const ticker$ = rxjs_1.Observable
     .interval(TICKER_INTERVAL, rxjs_1.Scheduler.animationFrame)
@@ -82421,6 +82422,7 @@ start.addEventListener('click', function () {
     Object.keys(midiFiles).forEach(key => {
         midiFiles[key].play();
     });
+    playingMidiFile = true;
 }, false);
 // Button: Stop
 let stop = document.createElement('button');
@@ -82438,7 +82440,20 @@ stop.addEventListener('click', function () {
     Object.keys(midiFiles).forEach(key => {
         midiFiles[key].stop();
     });
+    playingMidiFile = false;
 }, false);
+//canvasDomContainer.querySelector('canvas').addEventListener('dblclick', fullscreenHandler);
+const keyDowns = rxjs_1.Observable.fromEvent(document, 'keydown');
+keyDowns.subscribe(function (e) {
+    if (e["key"] === "Enter") {
+        if (playingMidiFile) {
+            stop.click();
+        }
+        else {
+            start.click();
+        }
+    }
+});
 // ========================================
 // PixiApp
 renderer_1.pixiApp.init(document.querySelector('.fireplace'), gameState_1.defaultGameState);
