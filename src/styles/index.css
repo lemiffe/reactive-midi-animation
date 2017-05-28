@@ -1,0 +1,114 @@
+html, body {
+    margin: 0;
+    background: #202020;
+}
+
+.container {
+    margin-top: 40px;
+    max-width: 2000px;
+}
+
+h1 {
+    text-transform: uppercase;
+    color: #eeeeee;
+    font-weight: 200;
+}
+
+h3 {
+    text-transform: uppercase;
+    color: #dddddd;
+    margin-top: -20px;
+    margin-bottom: 30px;
+    font-size: 17px;
+    letter-spacing: 1.5px;
+}
+
+.fireplace {
+    overflow: hidden;
+}
+
+.fireplace canvas {
+    max-width: 100%;
+}
+
+.sidebar {
+    color: #cccccc;
+}
+
+.sidebar button {
+    margin-bottom: 20px;
+}
+
+.sidebar .input {
+    border: solid 1px #dddddd;
+    border-radius: 3px;
+    overflow: hidden;
+    margin-bottom: 10px;
+}
+
+.sidebar .input .title {
+    background-color: #dddddd;
+    text-align: center;
+    color: #202020;
+    padding: 2px 3px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.sidebar .input .selector {
+    text-align: center;
+    padding: 4px 10px;
+}
+
+.sidebar .input .selector select {
+    width: 100%;
+    margin-bottom: 0;
+    background: none;
+    color: #fff;
+    border: none 0px #000;
+}
+
+.sidebar .sync label {
+    display: inline-block;
+    font-size: 11px;
+    font-weight: 200;
+    padding: 0 4px 0 18px;
+    color: #fff;
+}
+
+/* Mobile first queries */
+
+/* mobile */
+@media (min-width: 400px) {}
+
+/* phablet */
+@media (min-width: 550px) {}
+
+/* tablet -1px (max width instead of min) */
+@media (max-width: 749px) {
+}
+
+/* desktop -1px (max width instead of min) */
+@media (max-width: 999px) {
+    .fireplace {
+        width: 100% !important;
+        float: none !important;
+    }
+    .sidebar {
+        float: none !important;
+        width: 100% !important;
+        margin-left: 0 !important;
+        margin-top: 25px !important;
+    }
+}
+
+/* Desktop HD */
+@media (min-width: 1200px) {}
+
+/* Full screen */
+.full {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+}

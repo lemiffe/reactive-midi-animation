@@ -1,0 +1,32 @@
+{
+  "name": "ts-starter",
+  "version": "1.0.0",
+  "scripts": {
+    "start": "webpack-dev-server --hot --inline",
+    "build": "webpack --env=prod --progress --profile --colors",
+    "deploy": "npm run build&&gh-pages -d ./"
+  },
+  "dependencies": {
+    "@types/hyperscript": "0.0.2",
+    "@types/lodash": "^4.14.63",
+    "@types/pixi.js": "^4.4.2",
+    "@types/webmidi": "^2.0.1",
+    "css-loader": "^0.28.1",
+    "file-loader": "^0.11.1",
+    "hyperscript": "^2.0.2",
+    "lodash": "^4.17.4",
+    "midi-player-js": "^1.1.1",
+    "pixi.js": "^4.5.0",
+    "rxjs": "^5.3.0",
+    "skeleton-css": "^2.0.4",
+    "style-loader": "^0.17.0",
+    "ts-loader": "^2.0.3",
+    "typescript": "^2.2.2",
+    "webpack": "^2.3.3",
+    "webpack-dev-server": "^2.4.2"
+  },
+  "devDependencies": {
+    "@types/node": "^7.0.18",
+    "gh-pages": "^1.0.0"
+  }
+}
