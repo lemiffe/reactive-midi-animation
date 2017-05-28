@@ -7,22 +7,17 @@ import MIDIAccess = WebMidi.MIDIAccess;
 import {Subject} from 'rxjs/Subject';
 import MIDIOutput = WebMidi.MIDIOutput;
 import {GraphicInputMapping} from '../types/graphicInputMapping';
+import MIDIPortType = WebMidi.MIDIPortType;
+import {MidiInput} from "../types/midiInput";
 
-const fakeKeyboardMIDIInput = {
-    name: 'keyboard',
-    id: '0',
-    onmidimessage: null
-};
-
-const midiAccess$ = Observable.fromPromise(navigator.requestMIDIAccess());
+export const midiAccess$ = Observable.fromPromise(navigator.requestMIDIAccess());
 
 /**
  * Emits all midi inputs available
- * @type Observable<Array<MIDIInput>>
+ * @type Observable<Array<MidiInput>>
  */
 export const midiInputs$ = midiAccess$.map((midi: MIDIAccess) => {
-    const midiInputs = Array.from(midi.inputs).map(([id, input]) => input);
-    return [<MIDIInput>fakeKeyboardMIDIInput, ...midiInputs];
+    return Array.from(midi.inputs).map(([id, input]) => { return {input: input}});
 });
 
 /**
@@ -42,7 +37,7 @@ export const midiInputTriggers$: Observable<Array<MIDINote>> = midiInputs$
     .flatMap(inputs =>
         Observable.create((observer) =>
             inputs.forEach(i =>
-                i.onmidimessage = (event) => observer.next(event)
+                i.input.onmidimessage = (event) => observer.next(event)
             )
         )
     )

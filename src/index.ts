@@ -1,7 +1,8 @@
-import {Observable, Scheduler} from 'rxjs';
+import {Observable, Scheduler, Subject} from 'rxjs';
 import {defaultGameState, GameState} from './types/gameState';
 import {pixiApp} from './renderer';
 import {keyboard$} from './observables/keyboard';
+import {midiFileNotes$, midiFile$} from './observables/midiFile';
 import {midiInputs$, midiInputTriggers$, midiOutput$, midiOutSubject$} from './observables/midi';
 import MIDIInput = WebMidi.MIDIInput;
 import '../node_modules/skeleton-css/css/skeleton.css';
@@ -11,7 +12,10 @@ import {getGraphicTypeSelection} from './observables/graphicTypeSelector';
 import {mutateGameState} from './state/index';
 import MIDIOutput = WebMidi.MIDIOutput;
 import {DMX_CONSTANTS} from './dmxConstants';
-var MidiPlayer = require('midi-player-js');
+import {MidiInput} from "./types/midiInput";
+import {fakeMidiInputs$} from "./observables/fakeMidi";
+import {ReplaySubject} from "rxjs/ReplaySubject";
+const MidiPlayer = require('midi-player-js');
 
 const TICKER_INTERVAL = 17;
 const ticker$ = Observable
@@ -27,11 +31,41 @@ const ticker$ = Observable
         })
     );
 
-const graphicMapping$ = Observable.combineLatest(midiInputs$, midiOutput$).flatMap(([midiInputs, midiOutpus]) => {
-    return getGraphicTypeSelection(midiInputs, document.querySelector('.sidebar'));
+// Keep an array (state) with all current fake midi inputs, and create an observable (for the mapping)
+let currentFakeMidiInputs : Array<MidiInput> = [];
+const currentFakeMidiInputs$ = new ReplaySubject<Array<MidiInput>>();
+fakeMidiInputs$.subscribe(newInputs => {
+    newInputs.forEach(function(newInput) {
+        let inArray = false;
+        currentFakeMidiInputs.forEach(function(currentInput) {
+            if (currentInput.input.id === newInput.input.id) {
+                inArray = true;
+                return;
+            }
+        });
+
+        if (!inArray) {
+            currentFakeMidiInputs.push(newInput);
+        }
+
+        // TODO: Reverse (ones that have been removed)
+
+        // Next the whole array (so that they are all picked up)
+        currentFakeMidiInputs$.next(currentFakeMidiInputs);
+    });
 });
 
-const midi$ = Observable.merge(keyboard$, midiInputTriggers$);
+const graphicMapping$ = Observable
+    .combineLatest(midiInputs$, currentFakeMidiInputs$)
+    .flatMap(([midiInputs, fakeMidiInputs]) => {
+    console.log('MIDI inputs (pre):', midiInputs); // TODO: Remove
+    console.log('Fake inputs (pre):', fakeMidiInputs); // TODO: Remove
+    return getGraphicTypeSelection(midiInputs, fakeMidiInputs, document.querySelector('.sidebar'));
+});
+
+const midi$ = Observable.merge(keyboard$, midiInputTriggers$, midiFile$);
+
+midi$.subscribe(what => { console.log("Midi event:", what);}); // TODO: Remove
 
 const gameLoop$ = ticker$.combineLatest(midi$, graphicMapping$)
     .do(([ticker, midiNotes, graphicMapping]) => {
@@ -45,23 +79,17 @@ const gameLoop$ = ticker$.combineLatest(midi$, graphicMapping$)
 // ========================================
 
 const sidebar = document.querySelector('.sidebar');
-let midiFiles = {};
+let midiFiles : object = {};
 let wavFile = null;
-
-// Midi player (should be multiple? one per file loaded?)
-let midiPlayer = new MidiPlayer.Player(function(event) {
-    // Test
-    if (event.name == 'Note on' && event.velocity > 0) {
-        console.log(event);
-    }
-});
-
-
 const wavPlayer = new Audio();
 
 // canplaythrough event is fired when enough of the audio has downloaded
 // to play it through at the current download rate
 wavPlayer.addEventListener('canplaythrough', audioLoadedHandler);
+
+// TODO: Create inputs with filenames after every midi file load
+// TODO: Cleanup this code
+// TODO: Add item to sidebar with files that have been loaded + allow user to remove files (removes from obj!)
 
 function handleFileSelect(event) {
     const files = input.files;
@@ -71,29 +99,45 @@ function handleFileSelect(event) {
 
     const fr = new FileReader();
     fr.onload = function(e) {
+        // Load MIDI file
         if (e.target['result'].substring(0, 15) === "data:audio/midi") {
-            midiFiles[files[0].name] = e.target['result']; // Contains full data URL for midi file (blob)
-            console.log(midiFiles);
+            // Add player (with full file contents) to midiFiles object (to play/stop with event handlers)
+            let safeFilename = files[0].name.replace('.mid', '').replace('.', '-');
+            midiFiles[safeFilename] = new MidiPlayer.Player(function (event) {
+                // Fire every event (including note off)
+                event.file = safeFilename; // Attach filename to event (for input mapping)
+                midiFileNotes$.next(event);
+            });
+
+            // Load MIDI file into memory
+            midiFiles[safeFilename].loadDataUri(e.target['result']);
+
+            // Add new input for this file
+            const fakeFileInput = {
+                input: {
+                    name: safeFilename,
+                    id: safeFilename,
+                    onmidimessage: null
+                }
+            };
+
+            fakeMidiInputs$.next([<MidiInput>fakeFileInput]);
         }
-        midiPlayer.loadDataUri(e.target['result']);
-        //if (window.hasOwnProperty('playMidi')) {
-        //    window['midiFile'] = e.target['result'];
-        //    window['loadMidi'].call();
-        //}
     };
 
     if (files.length) {
-        // If MIDI file
         let file = files[0];
         if (file !== null) {
             if (accept.binary.indexOf(file.type) > -1) {
                 if (file.type === "audio/midi") {
-                    // Load midi file to dictionary (see fr.onload above)
+                    // Load midi file (see fr.onload above)
+                    console.log("Loading MIDI file");
                     fr.readAsDataURL(file);
                 } else if (file.type === "audio/wav") {
+                    // Load WAV file
+                    console.log("Loading WAV file");
                     wavFile = URL.createObjectURL(file);
                     wavPlayer.src = wavFile;
-                    console.log(wavFile);
                 }
             } else {
                 console.log("Wrong file type: ", file.type);
@@ -129,8 +173,9 @@ start.addEventListener('click', function() {
     }
 
     // Midi
-    // Todo: start each midi file
-    midiPlayer.play();
+    Object.keys(midiFiles).forEach(key => {
+        midiFiles[key].play();
+    });
 }, false);
 
 // Button: Stop
@@ -148,8 +193,9 @@ stop.addEventListener('click', function() {
     }
 
     // Midi
-    // Todo: stop each midi file
-    midiPlayer.stop();
+    Object.keys(midiFiles).forEach(key => {
+        midiFiles[key].stop();
+    });
 }, false);
 
 // ========================================

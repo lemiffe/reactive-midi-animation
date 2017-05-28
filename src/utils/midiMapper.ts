@@ -13,7 +13,7 @@ const OCTAVES = 11;
 const possibleNotes = flatMap(range(0, OCTAVES), (octave) => KEYS.map(key => ({ octave, key })));
 const midiNotes = range(0, MIDI_IDS).map(i => possibleNotes[i]);
 
-// convert midi code to MIDINote
+// Convert MIDI Message (from MIDI input) to MIDINote
 export function midiMessageMapper(midiMessage: MIDIMessageEvent): MIDINote {
     const [origin, key, velocity] = midiMessage.data;
 
@@ -23,6 +23,27 @@ export function midiMessageMapper(midiMessage: MIDIMessageEvent): MIDINote {
     return {
         onOff: onOff,
         inputId: midiMessage.srcElement.id,
+        note: midiNotes[key],
+        velocity
+    }
+}
+
+// Convert MIDI File Message to MIDINote
+/**
+ * @param midiMessage
+ * e.g. {channel:1, delta:94, name:"Note on", noteName:"A1", noteNumber:33, tick:2112, track:1, velocity:79, file:?}
+ * @returns {{onOff: (string|string), inputId, note: any, velocity: any}}
+ */
+export function midiFileMessageMapper(midiMessage: any): MIDINote {
+    const key = midiMessage.noteNumber;
+    const velocity = midiMessage.velocity;
+
+    // Some MIDI keyboards don't output origin 128 for off, they still send 144 but with velocity 0
+    const onOff = (velocity > 0) ? 'on' : 'off';
+
+    return {
+        onOff: onOff,
+        inputId: midiMessage.file,
         note: midiNotes[key],
         velocity
     }
