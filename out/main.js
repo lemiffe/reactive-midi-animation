@@ -82349,11 +82349,12 @@ wavPlayer.addEventListener('canplaythrough', audioLoadedHandler);
 function handleFileSelect(event) {
     const files = input.files;
     // Allowed media types
-    const accept = { binary: ["audio/midi", "audio/wav"] };
+    const accept = { binary: ["audio/midi", "audio/wav", "audio/mid"] };
     const fr = new FileReader();
     fr.onload = function (e) {
         // Load MIDI file
-        if (e.target['result'].substring(0, 15) === "data:audio/midi") {
+        if (e.target['result'].substring(0, 15) === "data:audio/midi" ||
+            e.target['result'].substring(0, 14) === "data:audio/mid") {
             // Add player (with full file contents) to midiFiles object (to play/stop with event handlers)
             let safeFilename = files[0].name.replace('.mid', '').replace('.', '-');
             midiFiles[safeFilename] = new MidiPlayer.Player(function (event) {
