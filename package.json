@@ -2,7 +2,9 @@
   "name": "ts-starter",
   "version": "1.0.0",
   "scripts": {
-    "start": "webpack-dev-server --hot --inline"
+    "start": "webpack-dev-server --hot --inline",
+    "build": "webpack --env=prod --progress --profile --colors",
+    "deploy": "npm run build&&gh-pages -d ./"
   },
   "dependencies": {
     "@types/hyperscript": "0.0.2",
@@ -24,6 +26,7 @@
     "webpack-dev-server": "^2.4.2"
   },
   "devDependencies": {
-    "@types/node": "^7.0.18"
+    "@types/node": "^7.0.18",
+    "gh-pages": "^1.0.0"
   }
 }

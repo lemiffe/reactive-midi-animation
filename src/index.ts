@@ -17,6 +17,8 @@ import {fakeMidiInputs$} from "./observables/fakeMidi";
 import {ReplaySubject} from "rxjs/ReplaySubject";
 const MidiPlayer = require('midi-player-js');
 
+let playingMidiFile = false;
+
 const TICKER_INTERVAL = 17;
 const ticker$ = Observable
     .interval(TICKER_INTERVAL, Scheduler.animationFrame)
@@ -176,6 +178,8 @@ start.addEventListener('click', function() {
     Object.keys(midiFiles).forEach(key => {
         midiFiles[key].play();
     });
+
+    playingMidiFile = true;
 }, false);
 
 // Button: Stop
@@ -196,7 +200,22 @@ stop.addEventListener('click', function() {
     Object.keys(midiFiles).forEach(key => {
         midiFiles[key].stop();
     });
+
+    playingMidiFile = false;
 }, false);
+
+//canvasDomContainer.querySelector('canvas').addEventListener('dblclick', fullscreenHandler);
+const keyDowns = Observable.fromEvent(document, 'keydown');
+
+keyDowns.subscribe(function(e) {
+    if (e["key"] === "Enter") {
+        if (playingMidiFile) {
+            stop.click();
+        } else {
+            start.click();
+        }
+    }
+});
 
 // ========================================
 
