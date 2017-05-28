@@ -132,7 +132,7 @@ function handleFileSelect(event) {
         let file = files[0];
         if (file !== null) {
             if (accept.binary.indexOf(file.type) > -1) {
-                if (file.type === "audio/midi") {
+                if (file.type === "audio/midi" || file.type === "audio/mid") {
                     // Load midi file (see fr.onload above)
                     console.log("Loading MIDI file");
                     fr.readAsDataURL(file);
